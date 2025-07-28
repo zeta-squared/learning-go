@@ -10,6 +10,12 @@ func main() {
 	fmt.Println()
 
 	fmt.Print("=====================\n\n")
+	fmt.Print("Slice Copy:\n\n")
+	fmt.Print("=====================\n\n")
+	sliceCopy()
+	fmt.Println()
+
+	fmt.Print("=====================\n\n")
 	fmt.Print("String Slice:\n\n")
 	fmt.Print("=====================\n\n")
 	stringSlice()

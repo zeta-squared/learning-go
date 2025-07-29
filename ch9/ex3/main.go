@@ -22,16 +22,21 @@ func main() {
 			continue
 		}
 
-		err = ValidateEmployee(emp)
-		if err != nil {
-			var emptyFieldErr EmptyFieldErr
-			if errors.Is(err, ErrInvalidID) {
-				fmt.Printf("record %d: %+v error: invalid ID: %s\n", count, emp, emp.ID)
-			} else if errors.As(err, &emptyFieldErr) {
-				fmt.Printf("record %d: %+v error: %v\n", count, emp, err)
-			} else {
-				fmt.Printf("record %d: %+v error: %v\n", count, emp, err)
+		myError := ValidateEmployee(emp)
+		if myError.Errors != nil {
+			for _, err := range myError.Unwrap() {
+				var emptyFieldErr EmptyFieldErr
+				if err != nil {
+					if errors.Is(err, ErrInvalidID) {
+						fmt.Printf("record %d: %+v error: invalid ID: %s\n", count, emp, emp.ID)
+					} else if errors.As(err, &emptyFieldErr) {
+						fmt.Printf("record %d: %+v error: %v\n", count, emp, err)
+					} else {
+						fmt.Printf("record %d: %+v error: %v\n", count, emp, err)
+					}
+				}
 			}
+			continue
 		}
 
 		fmt.Printf("record %d: %+v\n", count, emp)
@@ -90,6 +95,18 @@ type Employee struct {
 	Title     string `json:"title"`
 }
 
+type MyError struct {
+	Errors []error
+}
+
+func (err MyError) Error() string {
+	return errors.Join(err.Errors...).Error()
+}
+
+func (err MyError) Unwrap() []error {
+	return err.Errors
+}
+
 type EmptyFieldErr struct {
 	field string
 }
@@ -102,21 +119,25 @@ var (
 	validID = regexp.MustCompile(`\W{4}-\d{3}`)
 )
 
-func ValidateEmployee(e Employee) error {
+func ValidateEmployee(e Employee) MyError {
+	myError := MyError{
+		Errors: make([]error, 4),
+	}
 	if len(e.ID) == 0 {
-		return EmptyFieldErr{field: "ID"}
+		myError.Errors = append(myError.Errors, EmptyFieldErr{field: "ID"})
 	}
 	if !validID.MatchString(e.ID) {
-		return ErrInvalidID
+		myError.Errors = append(myError.Errors, ErrInvalidID)
 	}
 	if len(e.FirstName) == 0 {
-		return EmptyFieldErr{field: "FirstName"}
+		myError.Errors = append(myError.Errors, EmptyFieldErr{field: "FirstName"})
 	}
 	if len(e.LastName) == 0 {
-		return EmptyFieldErr{field: "LastName"}
+		myError.Errors = append(myError.Errors, EmptyFieldErr{field: "LastName"})
 	}
 	if len(e.Title) == 0 {
-		return EmptyFieldErr{field: "Title"}
+		myError.Errors = append(myError.Errors, EmptyFieldErr{field: "Title"})
 	}
-	return nil
+
+	return myError
 }

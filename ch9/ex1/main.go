@@ -29,6 +29,7 @@ func main() {
 			} else {
 				fmt.Printf("record %d: %+v error: %v\n", count, emp, err)
 			}
+			continue
 		}
 
 		fmt.Printf("record %d: %+v\n", count, emp)

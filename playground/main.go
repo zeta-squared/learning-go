@@ -5,13 +5,16 @@ import (
 )
 
 func main() {
-	strs := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
-	fmt.Println(sortStrings(strs))
-	fmt.Println(groupAnagrams(strs))
-	strs = []string{"a"}
-	fmt.Println(groupAnagrams(strs))
-	strs = []string{""}
-	fmt.Println(groupAnagrams(strs))
-	strs = []string{"cab", "tin", "pew", "duh", "may", "ill", "buy", "bar", "max", "doc"}
-	fmt.Println(groupAnagrams(strs))
+	s := "abcabcbb"
+	fmt.Println(lengthOfLongestSubstring(s))
+	s = "bbbbb"
+	fmt.Println(lengthOfLongestSubstring(s))
+	s = "pwwkew"
+	fmt.Println(lengthOfLongestSubstring(s))
+	s = " "
+	fmt.Println(lengthOfLongestSubstring(s))
+	s = "au"
+	fmt.Println(lengthOfLongestSubstring(s))
+	s = "au"
+	fmt.Println(lengthOfLongestSubstring(s))
 }

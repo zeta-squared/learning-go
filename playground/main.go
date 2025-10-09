@@ -15,22 +15,21 @@ func main() {
 }
 
 func merge(nums1, nums2 []int, m, n int) {
-	temp := make([]int, m+n)
+	temp := nums1[:m]
 	i, j := 0, 0
 	for k := range len(nums1) {
-		if i > m {
-			temp[k] = nums2[j]
-			j++
-		} else if j > n {
-			temp[k] = nums1[i]
+		for temp[i] <= nums2[j] && i < m && j < n {
+			nums1[k] = temp[i]
 			i++
 		}
 
-		temp[k] = min(nums1[i], nums2[j])
-		if nums1[i] <= nums2[j] {
-			i++
-		} else {
+		if nums1[i] < nums2[j] && i < m && j < n {
+			nums1[k] = nums2[j]
 			j++
 		}
+	}
+
+	for v, i := range temp {
+		nums1[i] = v
 	}
 }

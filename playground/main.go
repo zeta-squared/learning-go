@@ -8,28 +8,30 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-func main() {
-	x := []int{1, 2, 3, 0, 0, 0}
-	merge(x, []int{2, 5, 6}, 3, 3)
-	fmt.Println(x)
+type ListNode struct {
+	Val  int
+	Next *ListNode
 }
 
-func merge(nums1, nums2 []int, m, n int) {
-	temp := nums1[:m]
-	i, j := 0, 0
-	for k := range len(nums1) {
-		for temp[i] <= nums2[j] && i < m && j < n {
-			nums1[k] = temp[i]
-			i++
-		}
-
-		if nums1[i] < nums2[j] && i < m && j < n {
-			nums1[k] = nums2[j]
-			j++
-		}
+func main() {
+	head1 := ListNode{
+		Val: 1,
+		Next: &ListNode{
+			Val: 2,
+			Next: &ListNode{
+				Val: 3,
+			},
+		},
+	}
+	head2 := ListNode{
+		Val: 1,
+		Next: &ListNode{
+			Val: 3,
+			Next: &ListNode{
+				Val: 4,
+			},
+		},
 	}
 
-	for v, i := range temp {
-		nums1[i] = v
-	}
+	fmt.Println(mergeTwoLists(&head1, &head2))
 }

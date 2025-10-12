@@ -14,24 +14,8 @@ type ListNode struct {
 }
 
 func main() {
-	head1 := ListNode{
-		Val: 1,
-		Next: &ListNode{
-			Val: 2,
-			Next: &ListNode{
-				Val: 3,
-			},
-		},
-	}
-	head2 := ListNode{
-		Val: 1,
-		Next: &ListNode{
-			Val: 3,
-			Next: &ListNode{
-				Val: 4,
-			},
-		},
-	}
-
-	fmt.Println(mergeTwoLists(&head1, &head2))
+	fmt.Println(isPalindrome("A man, a plan, a canal: Panama"))
+	fmt.Println(isPalindrome("race a car"))
+	fmt.Println(isPalindrome(" "))
+	fmt.Println(isPalindrome("0P"))
 }
